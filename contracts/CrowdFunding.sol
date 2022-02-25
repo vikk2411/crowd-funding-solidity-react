@@ -81,4 +81,11 @@ contract CrowdFunding{
     }
   }
 
+  function fetchRounds() external view returns(Round[] memory){
+    Round[] memory arr = new Round[](_roundIds.current());
+    for(uint i=1; i<=_roundIds.current(); i++){
+      arr[i-1] = (idToRound[i]);
+    }
+    return arr;
+  }
 }

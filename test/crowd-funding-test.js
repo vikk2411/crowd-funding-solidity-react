@@ -62,4 +62,12 @@ describe("Crowd Funding contract", () => {
       expect(round.contributers).to.equal(2);
     })
   })
+
+  describe("fetch rounds", () => {
+    it("should give the number of rounds", async () => {
+      const rounds = await cf.fetchRounds();
+      expect(rounds.length).to.equal(1);
+    });
+  });
+  
 })
