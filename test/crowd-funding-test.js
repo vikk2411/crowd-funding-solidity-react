@@ -8,14 +8,14 @@ describe("Crowd Funding contract", () => {
     CrowdFunding = await ethers.getContractFactory("CrowdFunding");
     cf = await CrowdFunding.deploy();
     [owner, addr1, addr2, _] = await ethers.getSigners();
-
-    cf.createRound(
+    const deadline = new Date().getTime() + 1000*3600*24*3
+    
+    await cf.connect(addr2).createRound(
       "Round 1",
       "This is round 1 description",
       1,
-      3600*24*3, // 3 days
+      deadline, // 3 days
       ethers.utils.parseEther("5"),
-      "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199"
     )
 
     round1 = await cf.idToRound(1);
@@ -69,5 +69,5 @@ describe("Crowd Funding contract", () => {
       expect(rounds.length).to.equal(1);
     });
   });
-  
+
 })

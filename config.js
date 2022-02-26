@@ -1,1 +1,1 @@
-export const CrowdFundingAddress = "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707";
+export const CrowdFundingAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
