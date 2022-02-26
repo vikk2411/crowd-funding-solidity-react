@@ -7,13 +7,38 @@ import { useRouter } from 'next/router'
 
 export default function createRound() {
   const [formInput, updateFormInput] = useState({
-    name: "R1",
-    description: "Desc",
-    minContri: "0.1",
-    target: "10",
+    name: "",
+    description: "",
+    minContri: "",
+    target: "",
     lastDate: new Date()
   })
+  const [errors, updateError] = useState({})
   const router = useRouter()
+
+  async function checkErrors(){
+    let err = {}
+    // updateError(err)
+    if(!formInput.name){
+      err["name"] = "Name is required"
+    }
+    if(!formInput.description){
+      err["name"] = "Description is required"
+    }
+    if(!formInput.minContri || formInput.minContri == 0){
+      err["minContri"] = "Minimum Contribution is required"
+    }
+    if(!formInput.target || formInput.target == 0){
+      err["target"] = "Target is required"
+    }
+    if(!formInput.lastDate){
+      err["lastDate"] = "Target is required"
+    }
+    updateError(err)
+    if(Object.keys(err).length === 0){
+      create()
+    }
+  }
 
   async function create(){
     const web3Modal = new Web3Modal();
@@ -45,24 +70,28 @@ export default function createRound() {
           onChange={e => updateFormInput({ ...formInput, name: e.target.value })}
           value={formInput.name}
         />
+        {errors.name && <p className="text-xs text-red-800 mx-2">* {errors.name}</p>}
         <input
           placeholder="Description"
           className="mt-2 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, description: e.target.value })}
           value={formInput.description}
         />
+        {errors.description && <p className="text-xs text-red-800 mx-2">* {errors.description}</p>}
         <input
           placeholder="Min Contribution in Eth"
           className="mt-2 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, minContri: e.target.value })}
           value={formInput.minContri}
         />
+        {errors.minContri && <p className="text-xs text-red-800 mx-2">* {errors.minContri}</p>}
         <input
           placeholder="Target in Eth"
           className="mt-2 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, target: e.target.value })}
           value={formInput.target}
         />
+        {errors.target && <p className="text-xs text-red-800 mx-2">* {errors.target}</p>}
         <input
           type="date"
           placeholder="Last date"
@@ -70,7 +99,8 @@ export default function createRound() {
           onChange={e => updateFormInput({ ...formInput, lastDate: e.target.value })}
           value={formInput.lastDate}
         />
-        <button onClick={create} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
+        {errors.lastDate && <p className="text-xs text-red-800 mx-2">* {errors.lastDate}</p>}
+        <button onClick={checkErrors} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
           Create Funding Round
         </button>
       </div>
