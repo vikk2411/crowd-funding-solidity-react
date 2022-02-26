@@ -34,9 +34,7 @@ contract CrowdFunding{
     string memory _desc, 
     uint _minContribution,
     uint _deadline,
-    uint _targetAmt,
-    address payable _recipient
-    
+    uint _targetAmt
   ) public returns (uint) {
     _roundIds.increment();
     uint roundId = _roundIds.current();
@@ -46,11 +44,11 @@ contract CrowdFunding{
       _desc,
       roundId,
       _minContribution,
-      block.timestamp + _deadline,
+      _deadline,
       _targetAmt,
       0,
       false,
-      _recipient,
+      payable(msg.sender),
       0
     );
     
